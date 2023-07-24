@@ -20,44 +20,56 @@ def home():
 @app.route('/animal/<int:id>')
 def animal_by_id(id):
     animal = Animal.query.filter(Animal.id == id).first()
-    if animal is None:
-        return make_response("<h1>Error: Animal not found</h1>", 404)
+    if not animal:
+        response_body = '<h1>404 animal not found</h1>'
+        response =  make_response(response_body, 404)
+        return response
 
-    response = f"""
+    response_body = f"""
     <ul>Name: {animal.name}</ul>
     <ul>Species: {animal.species}</ul>
-    <ul>Zookeeper: {animal.zookeeper.name if animal.zookeeper else 'None'}</ul>
-    <ul>Enclosure: {animal.enclosure.environment if animal.enclosure else 'None'}</ul>
+    <ul>Zookeeper: {animal.zookeeper.name}</ul>
+    <ul>Enclosure: {animal.enclosure.environment}</ul>
     """
 
+    response = make_response(response_body, 200)
+    
     return response
 
 @app.route('/zookeeper/<int:id>')
 def zookeeper_by_id(id):
     zookeeper = Zookeeper.query.filter(Zookeeper.id == id).first()
-    if zookeeper is None:
-        return make_response("<h1>Error: Zookeeper not found</h1>", 404)
+    if not zookeeper:
+        response_body = '<h1>404 zookeper not found</h1>'
+        response =  make_response(response_body, 404)
+        return response
 
-    response = f"""
+    response_body = f"""
     <ul>Name: {zookeeper.name}</ul>
-    <ul>Birthday: {zookeeper.birthday.isoformat()}</ul>
-    <ul>Animals: {', '.join([animal.name for animal in zookeeper.animals])}</ul>
+    <ul>Birthday: {zookeeper.birthday}</ul>
+    <ul>Animals: {zookeeper.animals}</ul>
     """
 
+    response = make_response(response_body, 200)
+    
     return response
 
 @app.route('/enclosure/<int:id>')
 def enclosure_by_id(id):
     enclosure = Enclosure.query.filter(Enclosure.id == id).first()
-    if enclosure is None:
-        return make_response("<h1>Error: Enclosure not found</h1>", 404)
+    if not enclosure:
+        response_body = '<h1>404 enclosure not found</h1>'
+        response =  make_response(response_body, 404)
+        return response
 
-    response = f"""
+    response_body = f"""
     <ul>Environment: {enclosure.environment}</ul>
     <ul>Open to visitors: {'Yes' if enclosure.open_to_visitors else 'No'}</ul>
-    <ul>Animals: {', '.join([animal.name for animal in enclosure.animals])}</ul>
+    <ul>Animals: {enclosure.animals}</ul>
     """
 
+    response = make_response(response_body, 200)
+    
     return response
 
 if __name__ == '__main__':
