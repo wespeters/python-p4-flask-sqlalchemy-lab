@@ -47,7 +47,7 @@ def zookeeper_by_id(id):
     response_body = f"""
     <ul>Name: {zookeeper.name}</ul>
     <ul>Birthday: {zookeeper.birthday}</ul>
-    <ul>Animals: {zookeeper.animals}</ul>
+    <ul>Animals: {', '.join([animal.name for animal in zookeeper.animals])}</ul>
     """
 
     response = make_response(response_body, 200)
@@ -65,7 +65,7 @@ def enclosure_by_id(id):
     response_body = f"""
     <ul>Environment: {enclosure.environment}</ul>
     <ul>Open to visitors: {'Yes' if enclosure.open_to_visitors else 'No'}</ul>
-    <ul>Animals: {enclosure.animals}</ul>
+    <ul>Animals: {', '.join([animal.name for animal in enclosure.animals])}</ul>
     """
 
     response = make_response(response_body, 200)
